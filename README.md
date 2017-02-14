@@ -1,9 +1,9 @@
 # Spring REST-API with BASIC spring security : it is used with maven3 build .
 
+![alt tag](https://github.com/sophea/spring-rest-api-basic-auth/blob/master/basic-Authentication.png)
 
 //start jetty server with maven plugin
-
->>mvn clean jetty:run
+$ mvn clean jetty:run
 
 
 # Basic authentication Users :
