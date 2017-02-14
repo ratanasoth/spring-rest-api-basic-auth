@@ -3,6 +3,7 @@
 ![alt tag](https://github.com/sophea/spring-rest-api-basic-auth/blob/master/basic-Authentication.png)
 
 //start jetty server with maven plugin
+
 $ mvn clean jetty:run
 
 
@@ -17,13 +18,13 @@ tom/abc123  - USER
 http://localhost:8080/api/countries/v1/all
 
 # CRUD REST-APIs you must pass basic authentication header along with :
-
+```
 GET http://localhost:8080/api/categories/v1/all
 GET http://localhost:8080/api/cagetoires/v1/{id}
 POST http://localhost:8080/api/cagetoires/v1/{id}
 DELETE http://localhost:8080/api/cagetoires/v1/{id}
 PUT http://localhost:8080/api/cagetoires/v1/{id}
-
+```
 
 # curl commands :
 ```
@@ -31,9 +32,8 @@ curl 'http://localhost:8080/api/categories/v1/all' --user  'bill:abc123'  -H 'Co
 curl 'http://localhost:8080/api/countries/v1/all'  --user 'tom:abc123'  -H 'Connection: keep-alive' --compressed
 ```
 
-
-
 # Maven depedendcy
+
 ```
 
  <spring.version>4.3.5.RELEASE</spring.version>
