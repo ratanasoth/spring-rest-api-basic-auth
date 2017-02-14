@@ -11,6 +11,10 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 
 @Configuration
 @Import(value = { SecurityConfiguration.class })
@@ -31,4 +35,14 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
         
         converters.add(converter);
     }
+    
+    
+    public class SkipNullObjectMapper extends ObjectMapper {
+        private static final long serialVersionUID = 1L;
+        public void init() {
+            setSerializationInclusion(JsonInclude.Include.NON_NULL);
+            disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+        }
+    }
+
 }
