@@ -30,6 +30,8 @@ curl 'http://localhost:8080/api/countries/v1/all'  --user 'tom:abc123'  -H 'Conn
 
 Maven depedendcy
 ===============
+ <spring.version>4.3.5.RELEASE</spring.version>
+    <springsecurity.version>4.1.1.RELEASE</springsecurity.version>
 <!-- Spring Security -->
     <dependency>
             <groupId>org.springframework.security</groupId>
