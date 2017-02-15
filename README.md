@@ -35,7 +35,6 @@ curl 'http://localhost:8080/api/countries/v1/all'  --user 'tom:abc123'  -H 'Conn
 # Maven depedendcy
 
 ```
-
  <spring.version>4.3.5.RELEASE</spring.version>
     <springsecurity.version>4.1.1.RELEASE</springsecurity.version>
 <!-- Spring Security -->
@@ -156,6 +155,26 @@ package com.rupp.spring.config;
 
 import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
 
+/**
+ * @author Sophea <a href='mailto:smak@dminc.com'> sophea </a>
+ * @version $id$ - $Revision$
+ * @date 2017
+ */
+
+/**
+The equivalent of Spring Security in web.xml file :
+
+<filter>
+    <filter-name>springSecurityFilterChain</filter-name>
+    <filter-class>org.springframework.web.filter.DelegatingFilterProxy
+                </filter-class>
+</filter>
+
+<filter-mapping>
+    <filter-name>springSecurityFilterChain</filter-name>
+    <url-pattern>/*</url-pattern>
+</filter-mapping>
+*/
 public class SecurityWebApplicationInitializer extends AbstractSecurityWebApplicationInitializer {
 
 }
@@ -243,3 +262,41 @@ public class CustomBasicAuthenticationEntryPoint extends BasicAuthenticationEntr
 
 ref : http://websystique.com/spring-security/secure-spring-rest-api-using-basic-authentication/
 ```
+
+# Use @Secure Annotation
+
+http://docs.spring.io/autorepo/docs/spring-security/4.0.0.CI-SNAPSHOT/reference/htmlsingle/#jc
+
+To use @Secure Annotation, first we should enable annotation-based security using the @EnableGlobalMethodSecurity annotation on any @Configuration instance. For example, the following would enable Spring Security’s @Secured annotation.
+```
+@Configuration
+@Import(value = { SecurityConfiguration.class })
+@EnableWebMvc
+@ComponentScan(value = {"com.rupp.spring.controller", "com.rupp.spring.service", "com.rupp.spring.dao"})
+@EnableGlobalMethodSecurity(securedEnabled = true)
+public class MvcConfig extends WebMvcConfigurerAdapter {
+..
+}
+```
+
+After then we can use @Secure annotation with controller REST-API:
+
+```
+
+@Controller
+@RequestMapping("countries")
+public class CountryController {
+    @Autowired
+    private CountryService service;
+    
+    @Secured(value = {"ROLE_USER", "ROLE_ADMIN"})
+    @RequestMapping(value = "/v1/all", method = RequestMethod.GET)
+    public ResponseEntity<Collection<String>> getAllCountries() {
+     final Collection<String> countries = service.getAll();
+     return new ResponseEntity<>(countries, HttpStatus.OK);
+
+    }
+}
+```
+
+

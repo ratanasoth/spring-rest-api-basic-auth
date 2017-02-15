@@ -2,9 +2,12 @@ package com.rupp.spring.controller;
 
 import java.util.List;
 
+import javax.servlet.annotation.ServletSecurity;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,7 +28,7 @@ public class CategoryController {
     private CategoryService service;
     
 
-    
+    /**get all categories items*/
     //@RequestMapping(value = "/v1", method = RequestMethod.GET)
     @GetMapping("/v1/all")
     @ResponseBody
@@ -33,8 +36,9 @@ public class CategoryController {
         return service.list();
     }
 
-    @GetMapping("/v1/{xx}")
-    public ResponseEntity<DCategory> getDCategory(@PathVariable("xx") Long id) {
+    /**get category detail by id* */
+    @GetMapping("/v1/{id}")
+    public ResponseEntity<DCategory> getDCategory(@PathVariable("id") Long id) {
 
         DCategory category = service.get(id);
         if (category == null) {
@@ -44,6 +48,7 @@ public class CategoryController {
         return new ResponseEntity<>(category, HttpStatus.OK);
     }
 
+    /*******Create Category with json format as request body*****/
     @PostMapping(value = "/v1")
     public ResponseEntity<DCategory> createDCategory(@RequestBody DCategory category) {
 
@@ -52,6 +57,7 @@ public class CategoryController {
         return new ResponseEntity<>(category, HttpStatus.OK);
     }
 
+    /*******Delete Category by id****/
     @DeleteMapping("/v1/{id}")
     public ResponseEntity deleteDCategory(@PathVariable Long id) {
 
@@ -63,7 +69,9 @@ public class CategoryController {
 
     }
 
+    /*****Update Category by id***/
     @PutMapping("/v1/{id}")
+    
     public ResponseEntity updateDCategory(@PathVariable Long id, @RequestBody DCategory category) {
 
         category = service.update(id, category);
